@@ -35,6 +35,14 @@ code {
 
   flex-wrap: wrap;
 }
+.page{
+  padding:1em;
+  margin:1em;
+}
+
+.btnpage{
+  padding:1em;
+}
 
 button{
   border: none;
