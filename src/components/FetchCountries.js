@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import useFetch from "../hooks/useFetch";
+import SmallerCountries from "./SmallerCountries";
+import OceaniaCountries from "./OceanaCountries";
+import AllCountries from "./AllCountries";
 
 const FetchCountries = () => {
   const [sortOrder, setSortOrder] = useState("asc");
@@ -14,19 +17,11 @@ const FetchCountries = () => {
 
   useEffect(() => {
     setCountries(apiData);
-   
   }, [apiData]);
+
   const handleSortClick = () => {
     setSortOrder(sortOrder === "asc" ? "desc" : "asc");
   };
-
-  const displayCountries = [...countries].sort((a, b) => {
-    if (sortOrder === "asc") {
-      return a.name.localeCompare(b.name);
-    } else {
-      return b.name.localeCompare(a.name);
-    }
-  });
 
   const handleOceania = () => {
     setIsOceaniaClicked(!isOceaniaClicked);
@@ -41,7 +36,7 @@ const FetchCountries = () => {
   return (
     <div>
       <div className="buttonDiv">
-        <div >
+        <div>
           <button
             onClick={handleOceania}
             className={isOceaniaClicked ? "highlight" : "unhighlight"}
@@ -56,7 +51,7 @@ const FetchCountries = () => {
           </button>
         </div>
 
-        <div >
+        <div>
           <button onClick={handleSortClick} className="sortBtn">
             Sort {sortOrder === "asc" ? "Ascending" : "Descending"}
           </button>
@@ -64,40 +59,12 @@ const FetchCountries = () => {
       </div>
 
       {isOceaniaClicked ? (
-        <div>
-          {displayCountries.map((country) =>
-            country.region === "Oceania" ? (
-              <div className="list">
-                <p key={country.name}>Country: {country.name}</p>
-                <p>Region: {country.region}</p>
-                <p>Area: {country.area}</p>
-              </div>
-            ) : null
-          )}
-        </div>
+        <OceaniaCountries countries={countries} sortOrder={sortOrder} />
       ) : isSmallerClicked ? (
-        <div>
-          {displayCountries.map((country) =>
-            country.area < 63500 ? (
-              <div className="list">
-                <p key={country.name}>Country: {country.name}</p>
-                <p>Region: {country.region}</p>
-                <p>Area: {country.area}</p>
-              </div>
-            ) : null
-          )}
-        </div>
+        <SmallerCountries countries={countries} sortOrder={sortOrder} />
       ) : (
         <div>
-          {displayCountries.map((country) => (
-            <>
-              <div className="list">
-                <p key={country.name}>Country: {country.name}</p>
-                <p>Region: {country.region}</p>
-                <p>Area: {country.area}</p>
-              </div>
-            </>
-          ))}
+          <AllCountries countries={countries} sortOrder={sortOrder} />
         </div>
       )}
     </div>
